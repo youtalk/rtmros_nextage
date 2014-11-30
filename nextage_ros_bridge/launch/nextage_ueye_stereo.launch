@@ -16,6 +16,7 @@
   <node pkg="nodelet" type="nodelet" name="ueye_cam_nodelet_master"
         args="load ueye_cam/ueye_cam_nodelet nodelet_manager">
     <param name="camera_name" type="str" value="right" /> <!-- == namespace for topics and services -->
+    <param name="frame_name" type="str" value="CAMERA_HEAD_R" />
     <param name="camera_topic" type="str" value="image_raw" />
     <param name="camera_id" type="int" value="1" /> <!-- 0 = any camera; 1+: camera ID -->
     <param name="camera_intrinsics_file" type="string" value="" /> <!-- default: ~/.ros/camera_info/<camera_name>.yaml -->
@@ -68,6 +69,7 @@
   <node pkg="nodelet" type="nodelet" name="ueye_cam_nodelet_slave1"
         args="load ueye_cam/ueye_cam_nodelet nodelet_manager">
     <param name="camera_name" type="str" value="left" /> <!-- == namespace for topics and services -->
+    <param name="frame_name" type="str" value="CAMERA_HEAD_L" />
     <param name="camera_topic" type="str" value="image_raw" />
     <param name="camera_id" type="int" value="2" /> <!-- 0 = any camera; 1+: camera ID -->
     <param name="camera_intrinsics_file" type="string" value="" /> <!-- default: ~/.ros/camera_info/<camera_name>.yaml -->
@@ -131,10 +133,9 @@
   <node pkg="stereo_image_proc" type="stereo_image_proc"
         name="stereo_image_proc" args="_approximate_sync:=True" />
 
-  <!-- this is not confirmed -->
-  <node pkg="tf" type="static_transform_publisher" name="head_link_to_stereo_link"
-    args="0.07 0.06 0.09 0 0.3 0 /HEAD_JOINT1_Link /stereo_link 100" />
-  <node pkg="tf" type="static_transform_publisher" name="stereo_link_to_stereo_frame"
-    args="0 0 0 1.57 3.14 1.57 /stereo_link /stereo_frame 100" />
+  <node pkg="tf" type="static_transform_publisher" name="HEAD_JOINT1_Link_to_CAMERA_HEAD_R"
+    args="0.059959 -0.069754 0.095 0.5575793136150866 -0.49754281129213 -0.6644971481955756 1.906 /HEAD_JOINT1_Link /CAMERA_HEAD_R 100" />
+  <node pkg="tf" type="static_transform_publisher" name="HEAD_JOINT1_Link_to_CAMERA_HEAD_L"
+    args="0.059959 0.069754 0.095 0.482495411872448 -0.5407162028626805 -0.6890748620315513 1.997 /HEAD_JOINT1_Link /CAMERA_HEAD_L 100" />
 
 </launch>
